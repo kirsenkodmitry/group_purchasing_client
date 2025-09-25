@@ -1,0 +1,13 @@
+<h2>Главная страница</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 mb-3" *ngFor="let product of products">
+      <app-product-card
+        [id]="product.id"
+        [name]="product.name"
+        [price]="product.price">
+      </app-product-card>
+    </div>
+  </div>
+</div>
