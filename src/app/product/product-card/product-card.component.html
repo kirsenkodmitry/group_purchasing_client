@@ -45,6 +45,10 @@
       </p>
     </div>
 
-    <a href="/addToCart?id={{id}}" class="btn btn-primary">В очередь</a>
+    <button *ngIf="isReserved(id)" class="btn btn-danger" >Зарезервировано</button>
+    <button *ngIf="!isReserved(id)" class="btn btn-primary" (click)="openReservePart()">Зарезервировать</button>
+    <input *ngIf="viewReservePart" type="range" min="0" max="{{requiredReserv - actualReserv}}" [(ngModel)]="qty">
+    <p *ngIf="viewReservePart">Текущее значение: {{qty}}</p>
+    <button *ngIf="!isReserved(id) && viewReservePart" class="btn btn-primary" (click) = "reserve(id)">Зарезервировать</button>
   </div>
 </div>

@@ -1,14 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, Input, OnInit} from '@angular/core';
+import {CommonModule, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIf, FormsModule],
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.css']
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit{
   @Input() id = '';
   @Input() name = '';
   @Input() price = 0;
@@ -20,6 +21,9 @@ export class ProductCardComponent {
 
   // мы используем только половину окружности
   halfCircumference = this.circumference / 2;
+  viewReservePart: boolean = false;
+  qty: number = 0;
+
 
   get progressPercent(): number {
     if (this.requiredReserv === 0) return 0;
@@ -30,5 +34,23 @@ export class ProductCardComponent {
     const filled = (this.progressPercent / 100) * this.halfCircumference;
     const empty = this.circumference;
     return `${filled} ${empty}`;
+  }
+  reserve(id: string): void{
+    sessionStorage.setItem(id, this.qty.toString());
+    this.viewReservePart = false;
+  }
+  ngOnInit() {
+    this.isReserved(this.id)
+  }
+  openReservePart(): boolean{
+    this.viewReservePart = true;
+    return this.viewReservePart;
+  }
+  isReserved(id: string): boolean {
+    if(sessionStorage.getItem(id)){
+      return true;
+    }else{
+      return false;
+    }
   }
 }
