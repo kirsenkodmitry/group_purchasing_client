@@ -1,8 +1,50 @@
 <div class="card" style="width: 18rem;">
-  <img src="https://tornado.shop/images/detailed/3/P1023495.jpg" class="card-img-top" alt="{{name}}" width="300" height="300">
-  <div class="card-body">
+  <img src="https://tornado.shop/images/detailed/3/P1023495.jpg"
+       class="card-img-top"
+       alt="{{name}}"
+       width="300"
+       height="300">
+
+  <div class="card-body text-center">
     <h5 class="card-title">{{name}}</h5>
     <p class="card-text">{{price}}$</p>
-    <a href="/addToCart?id={{id}}" class="btn btn-primary">Добавить в корзину</a>
+
+    <!-- Индикатор очереди -->
+    <div class="my-3">
+      <svg width="150" height="80" viewBox="0 0 150 80">
+        <!-- фон -->
+        <circle [attr.r]="radius"
+                cx="75" cy="75"
+                fill="none"
+                stroke="#e0e0e0"
+                stroke-width="8"
+                [attr.stroke-dasharray]="halfCircumference + ' ' + circumference"
+                stroke-dashoffset="0"
+                transform="rotate(-180, 75, 75)" />
+
+        <!-- прогресс -->
+        <circle [attr.r]="radius"
+                cx="75" cy="75"
+                fill="none"
+                stroke="#007bff"
+                stroke-width="8"
+                [attr.stroke-dasharray]="dashArray"
+                stroke-linecap="butt"
+                transform="rotate(-180, 75, 75)"
+                style="transition: 0.3s linear;" />
+
+        <!-- текст -->
+        <text x="75" y="65" text-anchor="middle" alignment-baseline="middle"
+              font-size="14" font-family="sans-serif" fill="#333">
+          {{progressPercent | number:'1.0-0'}}%
+        </text>
+      </svg>
+
+      <p class="small text-muted">
+        {{actualReserv}} / {{requiredReserv}} откликов
+      </p>
+    </div>
+
+    <a href="/addToCart?id={{id}}" class="btn btn-primary">В очередь</a>
   </div>
 </div>
