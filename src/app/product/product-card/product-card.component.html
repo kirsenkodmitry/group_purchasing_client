@@ -8,6 +8,7 @@
   <div class="card-body text-center">
     <h5 class="card-title">{{name}}</h5>
     <p class="card-text">{{price}}$</p>
+    <p *ngIf="isReserved(id)" class="card-text">Зарезервировано {{qty}} штук</p>
 
     <!-- Индикатор очереди -->
     <div class="my-3">
@@ -46,9 +47,18 @@
     </div>
 
     <button *ngIf="isReserved(id)" class="btn btn-danger" >Зарезервировано</button>
+    <button *ngIf="isReserved(id)" (click)="removeProduct(id)" class="btn btn-danger" ><i class="bi bi-trash-fill"></i></button>
+
+    <button *ngIf="isReserved(id)" (click)="openEditPart()" class="btn btn-dark" ><i class="bi bi-pencil-fill"></i></button>
+    <input *ngIf="showEditPart" type="range" min="0" max="{{actualReserv - qty}}" [(ngModel)]="editQtyValue">
+    <p *ngIf="showEditPart">Текущее значение: {{editQtyValue}}</p>
+    <button *ngIf="showEditPart" (click)="editQty(id, editQtyValue)" class="btn btn-dark" >Изменить</button>
+
+
     <button *ngIf="!isReserved(id)" class="btn btn-primary" (click)="openReservePart()">Зарезервировать</button>
-    <input *ngIf="viewReservePart" type="range" min="0" max="{{requiredReserv - actualReserv}}" [(ngModel)]="qty">
-    <p *ngIf="viewReservePart">Текущее значение: {{qty}}</p>
-    <button *ngIf="!isReserved(id) && viewReservePart" class="btn btn-primary" (click) = "reserve(id)">Зарезервировать</button>
+
+    <input *ngIf="showReservePart" type="range" min="0" max="{{requiredReserv - actualReserv}}" [(ngModel)]="qty">
+    <p *ngIf="showReservePart">Текущее значение: {{qty}}</p>
+    <button *ngIf="!isReserved(id) && showReservePart" class="btn btn-primary" (click) = "reserve(id)">Зарезервировать</button>
   </div>
 </div>

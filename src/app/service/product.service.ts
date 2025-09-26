@@ -6,7 +6,7 @@ export class ProductService {
   getProducts(page: number): Product[] {
     let products: Product[] = [];
     for (let i = page; i < page + 9; i++) {
-      const product = new Product(i.toString(), "name" + i.toString(), 30.5 + i);
+      const product = new Product(i.toString(), "name" + i.toString(), 30.5 + i, i * 15, i * 10);
       products.push(product);
     }
     return products;

@@ -23,4 +23,16 @@ export class ProductListComponent  implements OnInit{
     this.products = this.productService.getProducts(this.page);
     console.log(this.products);
   }
+  editProductOnDb(id: string, qty: number, action: string,  user: string): void{
+    const product = this.products.find(p => p.id === id)!;
+    if(action === 'add'){
+      product.actualReserv = product.actualReserv + qty;
+    }else{
+      if(action === 'edit'){
+        product.actualReserv = product.actualReserv - (+sessionStorage.getItem(id)!) + qty;
+      }else{
+        product.actualReserv = product.actualReserv - +sessionStorage.getItem(id)!;
+      }
+    }
+  }
 }
