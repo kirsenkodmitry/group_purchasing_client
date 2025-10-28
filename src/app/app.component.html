@@ -8,6 +8,15 @@
         </div>
 
         <div class="d-flex align-items-center">
+          <button class="btn btn-dark position-relative" type="button">
+            <i class="bi bi-basket fs-5"></i>
+            <span *ngIf="qtyProductsInCart !== 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{qtyProductsInCart}}
+            </span>
+          </button>
+          <button class="btn btn-dark position-relative" type="button">
+
+          </button>
           <!-- Уведомления -->
           <div class="dropdown me-3">
             <button class="btn btn-dark position-relative" type="button" data-bs-toggle="dropdown">

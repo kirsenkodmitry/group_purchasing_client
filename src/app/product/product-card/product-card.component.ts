@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ProductListComponent} from '../product-list/product-list.component';
+import {BehaviorSubject} from 'rxjs';
+import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'app-product-card',
@@ -11,6 +13,8 @@ import {ProductListComponent} from '../product-list/product-list.component';
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent implements OnInit{
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
   @Input() id = '';
   @Input() name = '';
   @Input() price = 0;
@@ -27,7 +31,7 @@ export class ProductCardComponent implements OnInit{
   qty: number = 0;
   editQtyValue: number = 0;
 
-  constructor(private productListComponent: ProductListComponent) {
+  constructor(private productListComponent: ProductListComponent, private appComponent: AppComponent) {
   }
   get progressPercent(): number {
     if (this.requiredReserv === 0) return 0;
@@ -43,6 +47,7 @@ export class ProductCardComponent implements OnInit{
     sessionStorage.setItem(id, this.qty.toString());
     this.showReservePart = false;
     this.editQtyValue = this.qty;
+    this.appComponent.updateQtyProductsInCart();
     this.productListComponent.editProductOnDb(id, this.qty, 'add', 'user')
   }
   ngOnInit() {
@@ -61,6 +66,7 @@ export class ProductCardComponent implements OnInit{
   removeProduct(id:string): void{
     this.productListComponent.editProductOnDb(id, this.qty, 'delete', 'user')
     sessionStorage.removeItem(id);
+    this.appComponent.updateQtyProductsInCart();
   }
   openEditPart(): void{
     this.showEditPart = true;
