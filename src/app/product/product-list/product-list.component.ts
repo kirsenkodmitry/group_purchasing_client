@@ -20,7 +20,7 @@ export class ProductListComponent  implements OnInit{
     // });
   }
   ngOnInit() {
-    this.products = this.productService.getProducts(this.page);
+    this.products = this.productService.getProducts();
     console.log(this.products);
   }
   editProductOnDb(id: string, qty: number, action: string,  user: string): void{
